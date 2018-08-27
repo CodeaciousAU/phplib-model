@@ -1,0 +1,30 @@
+{
+    "name": "codeacious/model",
+    "description": "Data model support",
+    "license": "MIT",
+    "homepage": "https://github.com/CodeaciousAU/phplib-model",
+    "authors": [
+        {
+            "name": "Glenn Schmidt",
+            "email": "glenn@codeacious.com",
+            "homepage": "https://codeacious.com"
+        }
+    ],
+    "type": "library",
+    "require": {
+        "php": ">=5.5",
+        "doctrine/collections": "~1.0"
+    },
+    "require-dev": {
+    },
+    "autoload": {
+        "psr-4": {
+            "Codeacious\\Model\\": "src/"
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0.x-dev"
+        }
+    }
+}
