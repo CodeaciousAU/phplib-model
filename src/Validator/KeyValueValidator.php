@@ -44,18 +44,34 @@ class KeyValueValidator
             if ($val === null)
                 continue;
 
-            $type = gettype($val);
             $expectedType = $allowed[$key];
-            if (($type == 'object' && !($val instanceof $expectedType))
-                || ($expectedType == 'array' && !self::couldBeConventional($val))
-                || ($expectedType == 'object' && !self::couldBeAssociative($val))
-                || ($type != 'object' && $expectedType != 'object' && $type != $expectedType))
+            if (!self::isExpectedType($val, $expectedType))
             {
-                $errors[] = ValidationError::invalid('Incorrect type "'.self::displayType($type, $val)
-                    .'", expecting "'.self::displayType($expectedType).'"', $key);
+                $errors[] = ValidationError::invalid('Incorrect type "'
+                    .self::displayType(gettype($val), $val).'", expecting "'
+                    .self::displayType($expectedType).'"', $key);
             }
         }
         return $errors;
+    }
+
+    /**
+     * @param mixed $val
+     * @param string $expectedType
+     * @return bool
+     */
+    private static function isExpectedType($val, $expectedType)
+    {
+        $type = gettype($val);
+        if ($type == 'object')
+            return ($val instanceof $expectedType);
+        if ($expectedType == 'array')
+            return self::couldBeConventional($val);
+        if ($expectedType == 'object')
+            return self::couldBeAssociative($val);
+        if ($expectedType == 'double')
+            return (is_int($val) || is_float($val));
+        return ($type == $expectedType);
     }
 
     /**
